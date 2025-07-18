@@ -173,6 +173,7 @@ class BaseOps:
             requires_grad=requires_grad,
             grad_fn=grad_fn,
             in_graph=in_graph,
+            device=tensor.device,
         )
 
 

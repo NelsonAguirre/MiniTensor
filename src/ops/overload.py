@@ -115,6 +115,7 @@ class OverloadOps:
             requires_grad=requires_grad,
             grad_fn=grad_fn,
             in_graph=in_graph,
+            device=a.device,
         )
 
     @staticmethod
@@ -149,7 +150,13 @@ class OverloadOps:
             if len(dependencies) != 0:
                 grad_fn = MulBackward(dependencies, ctx)
                 in_graph = True
-        return TProps(data=data, requires_grad=requires_grad, grad_fn=grad_fn, in_graph=in_graph)
+        return TProps(
+            data=data,
+            requires_grad=requires_grad,
+            grad_fn=grad_fn,
+            in_graph=in_graph,
+            device=a.device,
+        )
 
     @staticmethod
     def pow(a: TensorLike, b: TensorLike) -> TProps:
