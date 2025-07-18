@@ -21,6 +21,7 @@ dev = ["pytest"]
 [tool.setuptools]
 packages = [
   "MiniTensor",
+  "MiniTensor.ops",
 ] # Le dice a setuptools que el paquete se llama MiniTensor
 
 [tool.setuptools.package-dir]
