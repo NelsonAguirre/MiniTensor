@@ -1,6 +1,6 @@
-from src.device import Array, get_lib
-from src.structure import TensorLike, TProps
-from src.function import Ctx, Grad_Backward, Function
+from ..device import Array, get_lib
+from ..structure import TensorLike, TProps
+from ..function import Ctx, Grad_Backward, Function
 
 
 class WhereElements:

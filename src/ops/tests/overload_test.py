@@ -2,8 +2,8 @@ import unittest
 
 import numpy as np
 
-from src.ops.overload import OverloadOps
-from src.tensor import Tensor
+from ..overload import OverloadOps
+from ...tensor import Tensor
 
 
 class TestOverloadOps(unittest.TestCase):

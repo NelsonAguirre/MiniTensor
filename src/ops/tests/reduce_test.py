@@ -2,8 +2,8 @@ import unittest
 
 import numpy as np
 
-from src.ops.reduce import Reduce
-from src.tensor import Tensor
+from ..reduce import Reduce
+from ...tensor import Tensor
 
 
 class TestReduceOps(unittest.TestCase):

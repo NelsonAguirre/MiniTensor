@@ -1,14 +1,12 @@
 from typing import Optional, Tuple
-from src.device import Array, get_lib
-from src.structure import Dim, TensorLike, TProps
-from src.function import Function_one_dependency, Ctx
+from ..device import Array, get_lib
+from ..structure import Dim, TensorLike, TProps
+from ..function import Function_one_dependency, Ctx
 
 
 class Reduce:
     @staticmethod
-    def sum(
-        tensor: TensorLike, dim: Optional[Dim] = None, keepdims: bool = False
-    ) -> TProps:
+    def sum(tensor: TensorLike, dim: Optional[Dim] = None, keepdims: bool = False) -> TProps:
         lib = get_lib(tensor.device)
         data = lib.sum(tensor.data, axis=dim, keepdims=keepdims)
         grad_fn = None
@@ -21,21 +19,15 @@ class Reduce:
             grad_fn = SumBackward(tensor, ctx)
             in_graph = True
 
-        return TProps(
-            data, tensor.dtype, tensor.requires_grad, tensor.device, grad_fn, in_graph
-        )
+        return TProps(data, tensor.dtype, tensor.requires_grad, tensor.device, grad_fn, in_graph)
 
     @staticmethod
-    def mean(
-        tensor: TensorLike, dim: Optional[Dim] = None, keepdims: bool = False
-    ) -> TensorLike:
+    def mean(tensor: TensorLike, dim: Optional[Dim] = None, keepdims: bool = False) -> TensorLike:
         num_values = tensor.size if dim is None else tensor.data.shape[dim]
         return tensor.sum(dim=dim, keepdims=keepdims) / num_values
 
     @staticmethod
-    def max(
-        tensor: TensorLike, dim: Optional[Dim] = None, keepdims: bool = False
-    ) -> TProps:
+    def max(tensor: TensorLike, dim: Optional[Dim] = None, keepdims: bool = False) -> TProps:
         lib = get_lib(tensor.device)
         data = lib.max(tensor.data, axis=dim, keepdims=keepdims)
         grad_fn = None
@@ -48,14 +40,10 @@ class Reduce:
             grad_fn = MaxMinBackward(tensor, ctx)
             in_graph = True
 
-        return TProps(
-            data, tensor.dtype, tensor.requires_grad, tensor.device, grad_fn, in_graph
-        )
+        return TProps(data, tensor.dtype, tensor.requires_grad, tensor.device, grad_fn, in_graph)
 
     @staticmethod
-    def min(
-        tensor: TensorLike, dim: Optional[Dim] = None, keepdims: bool = False
-    ) -> TProps:
+    def min(tensor: TensorLike, dim: Optional[Dim] = None, keepdims: bool = False) -> TProps:
         lib = get_lib(tensor.device)
         data = lib.min(tensor.data, axis=dim, keepdims=keepdims)
         grad_fn = None
@@ -68,9 +56,7 @@ class Reduce:
             ctx.save_other_info("keepdims", keepdims)
             grad_fn = MaxMinBackward(tensor, ctx)
             in_graph = True
-        return TProps(
-            data, tensor.dtype, tensor.requires_grad, tensor.device, grad_fn, in_graph
-        )
+        return TProps(data, tensor.dtype, tensor.requires_grad, tensor.device, grad_fn, in_graph)
 
 
 class SumBackward(Function_one_dependency):
@@ -101,7 +87,5 @@ class MaxMinBackward(Function_one_dependency):
         output_expanded = output if keepdims or dim is None else lib.expand_dims(output, axis=dim)  # type: ignore
         mask = x_data == output_expanded
         num_max = lib.sum(mask, axis=dim, keepdims=keepdims) if dim is not None else lib.sum(mask)  # type: ignore
-        grad_expanded = (
-            grad if keepdims is True or dim is None else lib.expand_dims(grad, dim)
-        )
+        grad_expanded = grad if keepdims is True or dim is None else lib.expand_dims(grad, dim)
         return ((mask / num_max) * grad_expanded,)

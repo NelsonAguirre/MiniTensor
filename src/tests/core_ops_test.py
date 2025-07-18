@@ -2,8 +2,8 @@ import unittest
 
 import numpy as np
 
-from src.device import Device, DType, check_cuda
-from src.tensor import Tensor
+from ..device import Device, DType, check_cuda
+from ..tensor import Tensor
 
 
 class TestTensorCoreOps(unittest.TestCase):
@@ -24,9 +24,7 @@ class TestTensorCoreOps(unittest.TestCase):
         np.testing.assert_allclose(t.grad, 0.0)  # type: ignore
 
     def test_backward_scalar_grad(self):
-        t = (
-            Tensor(3.0, requires_grad=True) + 0
-        )  # Se suma para que "grad_fn" no sea None.
+        t = Tensor(3.0, requires_grad=True) + 0  # Se suma para que "grad_fn" no sea None.
         t.backward()
         self.assertEqual(t.grad, 1.0)
 

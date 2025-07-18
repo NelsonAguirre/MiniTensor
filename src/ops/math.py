@@ -1,6 +1,6 @@
-from src.device import Array, get_lib
-from src.structure import TensorLike, TProps
-from src.function import Function_one_dependency, Ctx
+from ..device import Array, get_lib
+from ..structure import TensorLike, TProps
+from ..function import Function_one_dependency, Ctx
 from typing import Tuple
 
 
@@ -15,9 +15,7 @@ class MathOps:
             grad_fn = LogBackward(tensor)
             in_graph = True
 
-        return TProps(
-            data, tensor.dtype, tensor.requires_grad, tensor.device, grad_fn, in_graph
-        )
+        return TProps(data, tensor.dtype, tensor.requires_grad, tensor.device, grad_fn, in_graph)
 
     @staticmethod
     def exp(tensor: TensorLike) -> TProps:
@@ -31,9 +29,7 @@ class MathOps:
             ctx.save_for_backward(data)
             grad_fn = ExpBackward(tensor, ctx)
             in_graph = True
-        return TProps(
-            data, tensor.dtype, tensor.requires_grad, tensor.device, grad_fn, in_graph
-        )
+        return TProps(data, tensor.dtype, tensor.requires_grad, tensor.device, grad_fn, in_graph)
 
     @staticmethod
     def tanh(tensor: TensorLike) -> TProps:
@@ -47,9 +43,7 @@ class MathOps:
             ctx.save_for_backward(data)
             grad_fn = TanhBackward(tensor, ctx)
             in_graph = True
-        return TProps(
-            data, tensor.dtype, tensor.requires_grad, tensor.device, grad_fn, in_graph
-        )
+        return TProps(data, tensor.dtype, tensor.requires_grad, tensor.device, grad_fn, in_graph)
 
     @staticmethod
     def abs(tensor: TensorLike) -> TProps:
@@ -62,9 +56,7 @@ class MathOps:
             grad_fn = AbsBackward(tensor)
             in_graph = True
 
-        return TProps(
-            data, tensor.dtype, tensor.requires_grad, tensor.device, grad_fn, in_graph
-        )
+        return TProps(data, tensor.dtype, tensor.requires_grad, tensor.device, grad_fn, in_graph)
 
 
 class LogBackward(Function_one_dependency):

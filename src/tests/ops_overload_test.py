@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from src.tensor import Tensor
+from ..tensor import Tensor
 
 
 class TestTensorOperatorOverloads(unittest.TestCase):
@@ -16,24 +16,12 @@ class TestTensorOperatorOverloads(unittest.TestCase):
         self.assertEqual(t[0][1].item(), 2.0)
 
     def test_comparisons(self):
-        self.assertTrue(
-            np.all((self.a < self.b).data == np.array([True, False, False]))
-        )
-        self.assertTrue(
-            np.all((self.a > self.b).data == np.array([False, False, True]))
-        )
-        self.assertTrue(
-            np.all((self.a == self.b).data == np.array([False, True, False]))
-        )
-        self.assertTrue(
-            np.all((self.a <= self.b).data == np.array([True, True, False]))
-        )
-        self.assertTrue(
-            np.all((self.a >= self.b).data == np.array([False, True, True]))
-        )
-        self.assertTrue(
-            np.all((self.a != self.b).data == np.array([True, False, True]))
-        )
+        self.assertTrue(np.all((self.a < self.b).data == np.array([True, False, False])))
+        self.assertTrue(np.all((self.a > self.b).data == np.array([False, False, True])))
+        self.assertTrue(np.all((self.a == self.b).data == np.array([False, True, False])))
+        self.assertTrue(np.all((self.a <= self.b).data == np.array([True, True, False])))
+        self.assertTrue(np.all((self.a >= self.b).data == np.array([False, True, True])))
+        self.assertTrue(np.all((self.a != self.b).data == np.array([True, False, True])))
 
     def test_add(self):
         result = self.a + self.b

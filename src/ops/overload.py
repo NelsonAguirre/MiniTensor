@@ -1,8 +1,8 @@
-from src.structure import Index, TensorLike, TProps
-from src.function import Ctx, Function, Function_one_dependency, Grad_Backward
-from src.device import Array, get_lib, get_dtype_from_lib
+from ..structure import Index, TensorLike, TProps
+from ..function import Ctx, Function, Function_one_dependency, Grad_Backward
+from ..device import Array, get_lib, get_dtype_from_lib
 
-from src.ops.base import BaseOps
+from .base import BaseOps
 
 from typing import Tuple, Callable, Union
 
@@ -149,9 +149,7 @@ class OverloadOps:
             if len(dependencies) != 0:
                 grad_fn = MulBackward(dependencies, ctx)
                 in_graph = True
-        return TProps(
-            data=data, requires_grad=requires_grad, grad_fn=grad_fn, in_graph=in_graph
-        )
+        return TProps(data=data, requires_grad=requires_grad, grad_fn=grad_fn, in_graph=in_graph)
 
     @staticmethod
     def pow(a: TensorLike, b: TensorLike) -> TProps:

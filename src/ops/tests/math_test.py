@@ -2,8 +2,8 @@ import unittest
 
 import numpy as np
 
-from src.ops.math import MathOps
-from src.tensor import Tensor
+from ..math import MathOps
+from ...tensor import Tensor
 
 
 class TestMathOps(unittest.TestCase):

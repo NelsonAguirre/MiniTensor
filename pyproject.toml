@@ -27,5 +27,5 @@ packages = [
 MiniTensor = "src"
 
 [tool.black]
-line-length = 10
+line-length = 100
 target-version = ['py38']

@@ -4,7 +4,7 @@ from enum import Enum
 import numpy as np
 import cupy as cp
 
-from src.device import Device, DType, get_device, get_lib, get_dtype_from_lib
+from ..device import Device, DType, get_device, get_lib, get_dtype_from_lib
 
 
 class TestDevice(unittest.TestCase):

@@ -2,21 +2,19 @@ import unittest
 
 import numpy as np
 
-from src.device import Device
-from src.ops import BaseOps
-from src.tensor import Tensor
+from ...device import Device
+from ...ops import BaseOps
+from ...tensor import Tensor
 
 
 class TestBaseOps(unittest.TestCase):
     def setUp(self):
-        self.tensor = Tensor(
-            [[1.0, 2.0], [3.0, 4.0]], requires_grad=True, device=Device.CPU
-        )
+        self.tensor = Tensor([[1.0, 2.0], [3.0, 4.0]], requires_grad=True, device=Device.CPU)
 
     def test_reshape(self):
         result = Tensor.from_TProps(BaseOps.reshape(self.tensor, (4,)))
         self.assertEqual(result._data.shape, (4,))
-        self.assertEqual(len(result.grad_fn.dependencies), 1)
+        self.assertEqual(len(result.grad_fn.dependencies), 1)  # type: ignore
 
     def test_transpose_none(self):
         result = Tensor.from_TProps(BaseOps.transpose(self.tensor))

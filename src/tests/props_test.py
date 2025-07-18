@@ -2,8 +2,8 @@ import unittest
 
 import numpy as np
 
-from src.device import Device, DType
-from src.tensor import Tensor
+from ..device import Device, DType
+from ..tensor import Tensor
 
 
 class TestTensorCoreFields(unittest.TestCase):

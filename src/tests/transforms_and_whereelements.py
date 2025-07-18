@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from src.tensor import Tensor
+from ..tensor import Tensor
 
 
 class TestTensorTransformElementwiseOps(unittest.TestCase):

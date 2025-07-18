@@ -1,6 +1,6 @@
 from typing import List, Dict, Optional, Tuple, Union, Any
-from src.device import Array
-from src.structure import TensorLike
+from .device import Array
+from .structure import TensorLike, FunctionLike
 
 Grad_Backward = Union[Tuple[Array, 2], Tuple[Array, 1]]
 
@@ -32,14 +32,12 @@ class Ctx:
         return self._non_data_info.get(key)
 
 
-class Function:
+class Function(FunctionLike):
     """
     A base class for backpropagation functions, it defines the connections between input and output tensors.
     """
 
-    def __init__(
-        self, dependencies: Dict[str, TensorLike], ctx: Optional["Ctx"] = None
-    ):
+    def __init__(self, dependencies: Dict[str, TensorLike], ctx: Optional["Ctx"] = None):
         self._dependencies = dependencies
         self.ctx = ctx
 

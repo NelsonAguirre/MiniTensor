@@ -2,8 +2,8 @@ import unittest
 
 import numpy as np
 
-from src.device import Device, DType
-from src.tensor import (
+from ..device import Device, DType
+from ..tensor import (
     Tensor,
     data_change_to_tensor,
     verify_equal_devices,
@@ -12,7 +12,7 @@ from src.tensor import (
     Other_change_Verify_devices_From_TProps,
     Other_change_Verify_devices,
 )
-from src.structure import TProps
+from ..structure import TProps
 
 
 class TestDecorators(unittest.TestCase):

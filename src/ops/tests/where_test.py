@@ -2,8 +2,8 @@ import unittest
 
 import numpy as np
 
-from src.ops.where import WhereElements
-from src.tensor import Tensor
+from ..where import WhereElements
+from ...tensor import Tensor
 
 
 class TestWhereElements(unittest.TestCase):
@@ -17,9 +17,7 @@ class TestWhereElements(unittest.TestCase):
 
         out_tensor.backward(np.array([[1.0, 1.0]]))
 
-        np.testing.assert_array_equal(
-            out_tensor.data, np.where(cond.data, a.data, b.data)
-        )
+        np.testing.assert_array_equal(out_tensor.data, np.where(cond.data, a.data, b.data))
         np.testing.assert_array_equal(a.grad, [[1.0, 0.0]])
         np.testing.assert_array_equal(b.grad, [[0.0, 1.0]])
 

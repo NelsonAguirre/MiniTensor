@@ -13,7 +13,6 @@ from .device import (
 from .ops import BaseOps, WhereElements, OverloadOps, MathOps, Reduce
 from .structure import Data, Dim, Index, Shape, TensorLike, TProps
 
-# from .structure import Self as TensorType
 from .function import Function
 
 
@@ -36,9 +35,7 @@ def verify_equal_devices(fn):
     @wraps(fn)
     def wrapper(self: "Tensor", other: "Tensor", *args, **kwargs):
         if self.device != other.device:
-            raise ValueError(
-                f"Tensors on different devices: {self.device} vs {other.device}"
-            )
+            raise ValueError(f"Tensors on different devices: {self.device} vs {other.device}")
         return fn(self, other, *args, *kwargs)
 
     return wrapper
@@ -182,9 +179,7 @@ class Tensor(TensorLike):
             ValueError: If the tensor has more than one element.
         """
         if self.data.size != 1:
-            raise ValueError(
-                f"Cannot convert tensor with shape {self.shape} to a scalar."
-            )
+            raise ValueError(f"Cannot convert tensor with shape {self.shape} to a scalar.")
         return self.data.item()
 
     @staticmethod
@@ -246,9 +241,7 @@ class Tensor(TensorLike):
             elif self.device == Device.CPU and new_device == Device.CUDA:
                 new_data = get_lib(new_device).array(self.data, dtype=new_dtype_impl)
             else:
-                raise RuntimeError(
-                    f"Unsupported device transfer: {self.device} -> {new_device}"
-                )
+                raise RuntimeError(f"Unsupported device transfer: {self.device} -> {new_device}")
         else:
             # Only dtype conversion
             new_data = self.data.astype(new_dtype_impl)
@@ -282,9 +275,7 @@ class Tensor(TensorLike):
         Resets the gradients of the Tensor to zero.
         """
         if not self.requires_grad:
-            raise ValueError(
-                "zero_grad can't be executed if the Tensor doesn't require gradient."
-            )
+            raise ValueError("zero_grad can't be executed if the Tensor doesn't require gradient.")
         self.grad.fill(0.0)  # type: ignore
 
     def backward(self, grad_output: Optional[Data] = None) -> None:
@@ -301,17 +292,13 @@ class Tensor(TensorLike):
             if grad_output is None:
                 grad_output = lib.ones(self.shape, dtype=dtype_lib)
             else:
-                if isinstance(grad_output, Tensor) or isinstance(
-                    grad_output, lib.ndarray
-                ):
+                if isinstance(grad_output, Tensor) or isinstance(grad_output, lib.ndarray):
                     if grad_output.shape != self.shape:  # type: ignore
                         raise ValueError("Shape of grad not equal")
 
                     if isinstance(grad_output, Tensor):
                         if grad_output.device is lib:
-                            raise ValueError(
-                                "The grad and the tensor hasnt equal devices"
-                            )
+                            raise ValueError("The grad and the tensor hasnt equal devices")
                         grad_output = grad_output.data
                     elif isinstance(grad_output, lib.ndarray):
                         grad_output = grad_output.astype(lib.float32)  # type: ignore
@@ -355,9 +342,7 @@ class Tensor(TensorLike):
         if self.grad_fn is None:
             raise RuntimeError("[!] The Tensor doesn't a backpropagation function.")
         if not self.requires_grad:
-            raise RuntimeError(
-                "'backward()' can only be called Tensors that require gradient."
-            )
+            raise RuntimeError("'backward()' can only be called Tensors that require gradient.")
 
         # Step 1: The 'grad' of the tensor is prepared and its value is updated
         grad_output = prepare_grad_output(self, grad_output)
@@ -739,9 +724,7 @@ class Tensor(TensorLike):
         if self.in_graph:
             raise ValueError("Tensor already in graph. Dont use mul in-place!")
         if other.in_graph:
-            raise ValueError(
-                "The other Tensor is already in graph. Dont use mul in-place!"
-            )
+            raise ValueError("The other Tensor is already in graph. Dont use mul in-place!")
 
         self.data = self.data * other.data
         return self
@@ -787,9 +770,7 @@ class Tensor(TensorLike):
         if self.in_graph:
             raise ValueError("Tensor is already in graph. Dont use add in-place!")
         if other.in_graph:
-            raise ValueError(
-                "The other Tensor is already in graph. Dont use add in-place!"
-            )
+            raise ValueError("The other Tensor is already in graph. Dont use add in-place!")
 
         self.data = self.data + other.data
         return self
@@ -839,9 +820,7 @@ class Tensor(TensorLike):
         if self.in_graph:
             raise ValueError("Tensor is already in graph. Dont use sub in-place!")
         if other.in_graph:
-            raise ValueError(
-                "The other Tensor is already in graph. Dont use sub in-place!"
-            )
+            raise ValueError("The other Tensor is already in graph. Dont use sub in-place!")
 
         self.data = self.data - other.data
         return self
@@ -887,9 +866,7 @@ class Tensor(TensorLike):
         if self.in_graph:
             raise ValueError("Tensor is already in graph. Dont use division in-place!")
         if other.in_graph:
-            raise ValueError(
-                "The other Tensor is already in graph. Dont use division in-place!"
-            )
+            raise ValueError("The other Tensor is already in graph. Dont use division in-place!")
 
         self.data = self.data**other.data
         return self
@@ -936,8 +913,6 @@ class Tensor(TensorLike):
         if self.in_graph:
             raise ValueError("Tensor is already in graph. Dont use division in-place!")
         if other.in_graph:
-            raise ValueError(
-                "The other Tensor is already in graph. Dont use division in-place!"
-            )
+            raise ValueError("The other Tensor is already in graph. Dont use division in-place!")
         self.data = self.data / other.data
         return self

@@ -1,8 +1,8 @@
 from typing import Callable, Tuple, Union, Optional
 
-from src.device import Array, get_lib
-from src.structure import Dim, Shape, TProps, TensorLike
-from src.function import Ctx, Function_one_dependency
+from ..device import Array, get_lib
+from ..structure import Dim, Shape, TProps, TensorLike
+from ..function import Ctx, Function_one_dependency
 
 
 class BaseOps:
@@ -46,9 +46,7 @@ class BaseOps:
                 grad = grad.sum(axis=tuple(range(ndim_added)), keepdims=False)
             # 3.2: Calculamos las dimesiones "expandidas"
             reduce_axes = tuple(
-                dim
-                for dim in range(tensor.ndim)
-                if tensor.shape[dim] == 1 and grad.shape[dim] > 1
+                dim for dim in range(tensor.ndim) if tensor.shape[dim] == 1 and grad.shape[dim] > 1
             )
             if reduce_axes:
                 grad = grad.sum(axis=reduce_axes, keepdims=False)
