@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "MiniTensor"
+version = "0.1"
+readme = "README.md"
+description = "Mini tensor framework with autograd."
+dependencies = ["numpy"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+]
+
+authors = [{ name = "Nelson Alejandro Aguirre Capcha" }]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools]
+packages = [
+  "MiniTensor",
+] # Le dice a setuptools que el paquete se llama MiniTensor
+
+[tool.setuptools.package-dir]
+MiniTensor = "src"
+
+[tool.black]
+line-length = 10
+target-version = ['py38']
